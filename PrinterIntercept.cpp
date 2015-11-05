@@ -784,6 +784,24 @@ void PrinterIntercept::handleUpCmdReply(USHORT command, USHORT argLo, USHORT arg
 			log.get(LogLevel::DEBUG) << "\n";
 			break;
 		}
+		case FIXUP3D_CMD_GET_TIME_ELAPSED:
+		{
+			ULONG result = (*((PUSHORT)buffer)) * 16; // Time is stored in 16-second units
+			int h, m=0;
+			h = result / 3600;
+			m = (result % 3600) / 60;
+			log.get(LogLevel::DEBUG) << "[GetTimeElapsed] Result: " << std::dec  << h << ":" << std::setw(2) << std::setfill('0') << std::dec << m << "\n";
+			break;
+		}
+		case FIXUP3D_CMD_GET_TIME_REMAINING:
+		{
+			ULONG result = *((PUSHORT)buffer);
+			int h, m=0;
+			h = result / 3600;
+			m = (result % 3600) / 60;
+			log.get(LogLevel::DEBUG) << "[GetTimeRemain] Result: "  << std::dec  << h << ":" << std::setw(2) << std::setfill('0') << std::dec << m << "\n";
+			break;
+		}
 		default:
 		{
 			UCHAR cmdLo = UPCMD_GetArgLo(command);
